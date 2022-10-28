@@ -10,30 +10,10 @@ export type TOrderProps = {
     products: TProduct[],
 }
 
-const dbInstance = collection(database, 'orders');
-
 export const Backoffice: React.FC = () => {
 
     const [orderList, setOrderList] = useState<TProduct[]>([]);
-    const handleClickProductDone = useCallback(async (event: React.MouseEvent) => {
-        const itemId = (event.target as HTMLElement).getAttribute('data-id');
-
-        const collectionById = doc(database, 'orders', itemId);
-        await deleteDoc(collectionById);
-    }, []);
-
-    useEffect(() =>
-        onSnapshot(dbInstance,
-            snapshot => {
-                setOrderList(
-                    snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }))
-                )
-            })
-        , []);
-
+    
     return (
         <div className=''>
             <Header>
@@ -51,7 +31,7 @@ export const Backoffice: React.FC = () => {
                                             <div className='card'>
                                                 <div className="card-body d-flex align-items-center">
                                                     <h5 className="card-title mb-0">Pedido: {item.id}</h5>
-                                                    <button data-id={item.id} onClick={handleClickProductDone} className="btn btn-warning ml-auto">Entregar Pedido</button>
+                                                    <button data-id={item.id} className="btn btn-warning ml-auto">Entregar Pedido</button>
                                                 </div>
                                             </div>
                                         </div>
