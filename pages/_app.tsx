@@ -1,11 +1,9 @@
-import { Session } from 'next-auth';
-import { getSession, SessionProvider } from 'next-auth/react';
-import App, { AppContext, AppProps } from 'next/app';
+import { AppContext, AppProps } from 'next/app';
 import { useEffect } from 'react';
-import '../styles/globals.scss'
+import PrivateContext from '../application/PrivateContext';
+import '../styles/globals.scss';
 
 type TPageProps = {
-  isPublic?: boolean;
   [name: string]: any;
 };
 
@@ -13,16 +11,12 @@ interface INodeAppProps extends AppProps {
   environment: Record<string, string>;
   Component: React.FunctionComponent;
   apiUrl: string;
-  session: Session;
   pageProps: TPageProps;
   baseUrl: string;
 }
 
-function MyApp({ Component, pageProps, environment, session }: INodeAppProps) {
-  const { isPublic, ...restPageProps } = pageProps;
-  const environmentScriptObject = {
-    __html: `window.env=${JSON.stringify(environment)}`,
-  };
+const CustomApp = ({ Component, pageProps, apiUrl, baseUrl, environment }: INodeAppProps) => {
+  const { ...restPageProps } = pageProps;
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap");
@@ -30,24 +24,19 @@ function MyApp({ Component, pageProps, environment, session }: INodeAppProps) {
 
   const renderApplicationContent = () => {
     return (
-      <Component {...restPageProps} />
+      <PrivateContext>
+        <Component {...restPageProps} />
+      </PrivateContext>
     );
   };
 
   return (
-    <SessionProvider session={session}>
-      {renderApplicationContent()}
-    </SessionProvider>
+    renderApplicationContent()
   )
 }
 
-MyApp.getInitialProps = async (appContext: AppContext) => {
-  const props = await App.getInitialProps(appContext);
-  const session = await getSession({ req: appContext.ctx.req });
-
+CustomApp.getInitialProps = async () => {
   return {
-    ...props,
-    session,
     environment: {
       API_URL: process.env.API_URL,
     },
@@ -55,4 +44,4 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   };
 };
 
-export default MyApp
+export default CustomApp;

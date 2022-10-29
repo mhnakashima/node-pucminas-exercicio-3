@@ -20,6 +20,7 @@
     "lodash.pick": "^4.4.0",
     "next": "12.2.5",
     "next-auth": "^4.15.0",
+    "next-transpile-modules": "^9.1.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "18.2.0",
@@ -29,6 +30,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/jest": "^29.2.0",
     "@types/node": "18.7.14",
     "@types/react": "18.0.18"
   }

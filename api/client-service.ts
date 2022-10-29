@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { v4 as uuidV4 } from 'uuid';
 
-const { API_URL } = process.env;
+export const { API_URL } = process.env;
+export const API_URL_NODE: string = 'https://appnode-server.herokuapp.com/api/';
 
 const getClientInstance = (token?: string, apiUrl?: string) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
   const instance = axios.create({
-    baseURL: apiUrl || API_URL,
+    baseURL: apiUrl || API_URL_NODE,
     headers,
     insecureHTTPParser: process.env.NODE_ENV === 'development' ? true : undefined,
   });

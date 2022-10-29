@@ -1,17 +1,13 @@
 import { useMemo } from 'react';
 
-import { useSession } from 'next-auth/react';
+import getClientInstance, { API_URL_NODE } from './../api/client-service';
 
-import getClientInstance from './../api/client-service';
-
-function useService(): App.TAxiosService {
-  const session = useSession();
-  const apiUrl = typeof window !== 'undefined' ? window.env?.apiUrl : undefined;
+function useService(accessToken?: string): App.TAxiosService {
+  const apiUrl = API_URL_NODE;
 
   const axiosInstance = useMemo(() => {
-    const accessToken = session.data?.accessToken;
     return getClientInstance(accessToken, apiUrl);
-  }, [session, apiUrl]);
+  }, [accessToken, apiUrl]);
 
   return axiosInstance;
 }
