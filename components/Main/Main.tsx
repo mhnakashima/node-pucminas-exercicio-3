@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react';
 import { API_URL_NODE, USER } from '../../api/client-service';
 import { TSongs } from "../../api/songs.type";
@@ -28,27 +29,32 @@ export const Main: React.FC = () => {
     }, [ffservice]);
 
     const onSubmitRegister = useCallback(async (event) => {
+        event.preventDefault();
         const nome = document.getElementById('nome') as HTMLInputElement;
         const autor = document.getElementById('autor') as HTMLInputElement;
 
+        console.log(nome, autor, user);
+
         const result = await ffservice.post(`${API_URL_NODE}musicas`, {
-            nome: nome.value,
+            id: 'teste',
+            musica: nome.value,
             autor: autor.value,
         });
 
+        console.log(result);
         if (result.status === 200) {
             renderList();
             setHasError(false);
         } else {
             setHasError(true);
         }
-    }, [ffservice, renderList]);
+    }, [ffservice, renderList, user]);
 
     useEffect(() => {
         if (user) {
             renderList();
         }
-    })
+    }, [renderList, user]);
 
     return (
         <div className=''>
@@ -56,37 +62,6 @@ export const Main: React.FC = () => {
                 <div className={styles.container}>
                     <h1>Músicas </h1>
                 </div>
-
-                {
-                    user && user.roles === "ADMIN" &&
-                    (
-                        <div className='row'>
-                            <div className='col-sm-12'>
-                                <div className="row">
-                                    <form >
-                                        <div className={styles.formGroup}>
-                                            <label htmlFor="exampleInputMusica">Música:</label>
-                                            <input type="text" className="form-control" id="nome" aria-describedby="emailHelp" placeholder="Insira o nome da música" />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label htmlFor="exampleInputAutor">Autor:</label>
-                                            <input type="text" className="form-control" id="autor" placeholder="Insira o nome do autor" />
-                                        </div>
-                                        <div className={styles.formGroupLink}>
-                                            <button onClick={onSubmitRegister} type="submit" className="btn btn-primary">Enviar</button>
-                                        </div>
-                                    </form>
-                                    {
-                                        hasError &&
-                                        <div className="alert alert-danger" role="alert">
-                                            Erro ao cadastrar uma música
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
 
                 <div className="row">
                     <div className='col-sm-12'>
@@ -115,6 +90,37 @@ export const Main: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                {
+                    user && user.roles.includes("ADMIN") &&
+                    (
+                        <div className={styles.formContainer}>
+                            <div className="row">
+                                <div className='col-sm-12'>
+                                    <form >
+                                        <div className={styles.formGroup}>
+                                            <label htmlFor="exampleInputMusica">Música:</label>
+                                            <input type="text" className="form-control" id="nome" aria-describedby="emailHelp" placeholder="Insira o nome da música" />
+                                        </div>
+                                        <div className={styles.formGroup}>
+                                            <label htmlFor="exampleInputAutor">Autor:</label>
+                                            <input type="text" className="form-control" id="autor" placeholder="Insira o nome do autor" />
+                                        </div>
+                                        <div className={styles.formGroupLink}>
+                                            <button onClick={onSubmitRegister} type="submit" className="btn btn-primary">Enviar</button>
+                                        </div>
+                                    </form>
+                                    {
+                                        hasError &&
+                                        <div className="alert alert-danger" role="alert">
+                                            Erro ao cadastrar uma música
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
             </Header>
         </div>
     );
