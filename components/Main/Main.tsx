@@ -106,12 +106,6 @@ export const Main: React.FC = () => {
                                             <button onClick={onSubmitRegister} type="submit" className="btn btn-primary">Enviar</button>
                                         </div>
                                     </form>
-                                    {
-                                        hasError &&
-                                        <div className="alert alert-danger" role="alert">
-                                            Erro ao cadastrar uma música
-                                        </div>
-                                    }
                                 </div>
                             </div>
                         </div>
