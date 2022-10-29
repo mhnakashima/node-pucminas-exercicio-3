@@ -42,18 +42,15 @@ export const Main: React.FC = () => {
             }
         });
 
-        if (result.status === 200) {
-            renderList();
-        } else {
-            setHasError(true);
-        }
+        renderList();
+
     }, [ffservice, renderList, user]);
 
-    useEffect(() => {
+    useDidMount(() => {
         if (user) {
             renderList();
         }
-    }, [renderList, user]);
+    });
 
     return (
         <div className=''>
@@ -109,12 +106,6 @@ export const Main: React.FC = () => {
                                             <button onClick={onSubmitRegister} type="submit" className="btn btn-primary">Enviar</button>
                                         </div>
                                     </form>
-                                    {
-                                        hasError &&
-                                        <div className="alert alert-danger" role="alert">
-                                            Erro ao cadastrar uma música
-                                        </div>
-                                    }
                                 </div>
                             </div>
                         </div>
