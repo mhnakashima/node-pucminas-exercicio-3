@@ -33,18 +33,17 @@ export const Main: React.FC = () => {
         const nome = document.getElementById('nome') as HTMLInputElement;
         const autor = document.getElementById('autor') as HTMLInputElement;
 
-        console.log(nome, autor, user);
+        console.log(nome.value, autor.value, user);
 
         const result = await ffservice.post(`${API_URL_NODE}musicas`, {
-            id: 'teste',
-            musica: nome.value,
-            autor: autor.value,
+            musica: {
+                nome: nome.value,
+                autor: autor.value,
+            }
         });
 
-        console.log(result);
         if (result.status === 200) {
             renderList();
-            setHasError(false);
         } else {
             setHasError(true);
         }
