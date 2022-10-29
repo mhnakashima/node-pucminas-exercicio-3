@@ -1,4 +1,4 @@
-import { TProduct } from "../api/product.type";
+import { TProduct } from "../api/songs.type";
 import axios from 'axios';
 
 const ENDPOINT_API: string = 'https://thawing-shelf-34829.herokuapp.com/api/v1/';

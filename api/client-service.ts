@@ -3,6 +3,7 @@ import { v4 as uuidV4 } from 'uuid';
 
 export const { API_URL } = process.env;
 export const API_URL_NODE: string = 'https://appnode-server.herokuapp.com/api/';
+export const USER: string = 'APPLICATION_USER';
 
 const getClientInstance = (token?: string, apiUrl?: string) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : undefined;

@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback, useState } from 'react';
 import { API_URL_NODE } from '../../../api/client-service';
 import useService from '../../../hooks/use-service';
 import styles from './SignUp.module.scss';
@@ -14,13 +15,11 @@ export type TLoginErrorTypes = 'forbidden';
 export function SignUp({ errorType }: TLogin) {
 
   const ffservice = useService();
-  console.log('ffservice', ffservice);
+  const router = useRouter();
+  const [hasError, setHasError] = useState<boolean>(false);
 
-  console.log(API_URL_NODE);
-
-  const onSubmitLogin = useCallback(async(event) => {
+  const onSubmitLogin = useCallback(async (event) => {
     event.preventDefault();
-    console.log(':::called');
 
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
@@ -31,7 +30,13 @@ export function SignUp({ errorType }: TLogin) {
       email: email.value,
       senha: password.value,
     });
-  }, [ffservice]);
+
+    if (result.status === 200) {
+      router.push('/auth/sign-in');
+    } else {
+      setHasError(true);
+    }
+  }, [ffservice, router]);
 
   return (
     <div className='container'>
@@ -53,10 +58,16 @@ export function SignUp({ errorType }: TLogin) {
                 <button onClick={onSubmitLogin} type="submit" className="btn btn-primary">Cadastrar</button>
               </div>
             </form>
+            {
+              hasError &&
+              <div className="alert alert-danger" role="alert">
+                Erro ao cadastrar
+              </div>
+            }
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TProduct } from "../../api/product.type";
+import { TProduct } from "../../api/songs.type";
 import Header from "../../components/header/Header";
 import styles from './Orders.module.scss';
 

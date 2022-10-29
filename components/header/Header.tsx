@@ -16,10 +16,7 @@ const Header: React.FC<IHeaderProps> = ({ children }) => {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item active mr2">
-                            <Link className="nav-link" href="/orders/orders">Orders</Link>
-                        </li>
-                        <li className="nav-item mr2">
-                            <Link className="nav-link" href="/backoffice/backoffice">Backoffice</Link>
+                            <Link className="nav-link" href="./../auth/sign-out">Logout</Link>
                         </li>
                     </ul>
                 </div>
