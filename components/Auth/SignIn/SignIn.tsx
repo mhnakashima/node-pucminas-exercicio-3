@@ -24,6 +24,8 @@ export function SignIn({ }: TLogin) {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
 
+    console.log(email, password);
+
     const result = await ffservice.post(`${API_URL_NODE}seguranca/login`, {
       login: email.value,
       senha: password.value,
