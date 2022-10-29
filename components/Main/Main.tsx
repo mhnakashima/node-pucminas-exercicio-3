@@ -42,18 +42,15 @@ export const Main: React.FC = () => {
             }
         });
 
-        if (result.status === 200) {
-            renderList();
-        } else {
-            setHasError(true);
-        }
+        renderList();
+
     }, [ffservice, renderList, user]);
 
-    useEffect(() => {
+    useDidMount(() => {
         if (user) {
             renderList();
         }
-    }, [renderList, user]);
+    });
 
     return (
         <div className=''>
