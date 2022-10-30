@@ -46,6 +46,13 @@ export const Main: React.FC = () => {
 
     }, [ffservice, renderList, user]);
 
+    const onDeleteRegister = useCallback(async (musicId) => {
+        const result = await ffservice.delete(`${API_URL_NODE}musicas/${musicId}`);
+
+        renderList();
+        console.log('result', result);
+    }, [ffservice, renderList]);
+
     useDidMount(() => {
         if (user) {
             renderList();
@@ -66,12 +73,29 @@ export const Main: React.FC = () => {
                                 songsList && songsList.map((item, i) => {
                                     return (
                                         <div key={item.id} className="col-6 col-md-4 col-lg-3 col-xl-2">
-                                            <div className="card" >
+                                            <div id={item.id} className="card" >
                                                 { /* eslint-disable-next-line @next/next/no-img-element */}
                                                 <img src="https://via.placeholder.com/200x150" className="card-img-top" alt="..." />
                                                 <div className="card-body">
                                                     <h5 className="card-title">{item.nome}</h5>
                                                     <p className="card-text">{item.autor}</p>
+                                                    {
+                                                        user && user.roles.includes("ADMIN") &&
+                                                        (
+                                                            <div className={styles.actions}>
+                                                                <button
+                                                                    data-id={item.id}
+                                                                    onClick={(event) => {
+                                                                        event.preventDefault();
+                                                                        onDeleteRegister(item.id);
+                                                                    }}
+                                                                    className="btn btn-danger"
+                                                                >
+                                                                    Deletar
+                                                                </button>
+                                                            </div>
+                                                        )
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
