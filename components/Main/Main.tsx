@@ -17,8 +17,7 @@ export const Main: React.FC = () => {
     const user: User = typeof window !== 'undefined' ? JSON.parse(window.localStorage.getItem(USER)) : undefined;
     const ffservice = useService(user ? user.token : undefined);
     const [songsList, setSongList] = useState<TSongs[]>([]);
-    const [hasError, setHasError] = useState<boolean>(false);
-
+    
     const renderList = useCallback(() => {
         ffservice.get(`${API_URL_NODE}musicas`)
             .then(response => {
@@ -67,7 +66,7 @@ export const Main: React.FC = () => {
                 </div>
 
                 <div className="row">
-                    <div className='col-sm-12'>
+                    <div className='col-sm-12 '>
                         <div className="row">
                             {
                                 songsList && songsList.map((item, i) => {
@@ -79,23 +78,25 @@ export const Main: React.FC = () => {
                                                 <div className="card-body">
                                                     <h5 className="card-title">{item.nome}</h5>
                                                     <p className="card-text">{item.autor}</p>
-                                                    {
-                                                        user && user.roles.includes("ADMIN") &&
-                                                        (
-                                                            <div className={styles.actions}>
+                                                    <div className={styles.actions}>
+                                                        {
+                                                            user && user.roles.includes("ADMIN") &&
+                                                            (
+
                                                                 <button
                                                                     data-id={item.id}
                                                                     onClick={(event) => {
                                                                         event.preventDefault();
                                                                         onDeleteRegister(item.id);
                                                                     }}
-                                                                    className="btn btn-danger"
+                                                                    className="btn btn-danger d-block w-100"
                                                                 >
                                                                     Deletar
                                                                 </button>
-                                                            </div>
-                                                        )
-                                                    }
+
+                                                            )
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
